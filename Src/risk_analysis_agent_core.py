@@ -16,6 +16,8 @@ from azure.search.documents.models import VectorizedQuery
 # Import AzureOpenAI to interact with Azure OpenAI services
 from openai import AzureOpenAI
 
+import json
+
 
 # ------------------------------------------------------------
 # Load environment variables from .env
@@ -247,8 +249,13 @@ Retrieved contract excerpts:
         ],
     )
 
-    # Return the content of the first message in the response, which contains GPT-5-mini's analysis of the contract risk
-    return response.choices[0].message.content
+    raw_response = response.choices[0].message.content
+
+    result = json.loads(raw_response)
+
+    print(result)
+
+    return result
 
 
 # -----------------------------------------------------------

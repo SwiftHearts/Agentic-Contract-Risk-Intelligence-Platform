@@ -4,7 +4,7 @@
 
 The Contract Risk Intelligence Platform is an AI-powered legal document analysis solution built on Microsoft Azure. The platform uses Retrieval-Augmented Generation (RAG) to help legal professionals analyze contracts, identify potential risks, and receive grounded responses supported by source citations.
 
-Instead of relying solely on general AI model knowledge, the solution retrieves relevant contract language from Azure AI Search and uses GPT-5-mini to generate responses based on actual contract content.
+This platform retrieves relevant contract language from Azure AI Search and uses GPT-5-mini to generate responses based on an uploaded contract's content.
 
 The project demonstrates two deployment models:
 
@@ -17,7 +17,7 @@ Both versions share the same Azure-based RAG backend.
 
 ## Live Demo
 
-Try the public version of the application:
+Try the public version of the application: https://www.swiftheartsai.com/project-showcase
 
 ### Public Streamlit Demo
 
@@ -265,19 +265,8 @@ Contract chunks, metadata, and embeddings are stored in Azure AI Search to suppo
 
 ---
 
-## Citation Enhancement
 
-The platform was enhanced to improve transparency and legal traceability.
-
-### Previous Citation Format
-
-```text
-[Source 1]
-
-[Source 2]
-```
-
-### Enhanced Citation Format
+### Citation Format
 
 ```text
 NDA-001.pdf

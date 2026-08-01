@@ -1,4 +1,4 @@
-from contract_risk_app import (
+from risk_analysis_agent_core import (
     retrieve_contract_chunks,
     build_context,
     analyze_contract_risk
@@ -26,6 +26,8 @@ class RiskAnalysisAgent:
             question,
             chunks
         )
+
+        return answer
 
         print(answer)
 

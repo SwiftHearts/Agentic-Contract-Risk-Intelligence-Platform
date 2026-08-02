@@ -56,7 +56,7 @@ AZURE_OPENAI_API_KEY = (
     or st.secrets.get("AZURE_OPENAI_API_KEY")
 )
 
-AZURE_OPENAI_VERSION = (
+AZURE_OPENAI_API_VERSION = (
     os.getenv("AZURE_OPENAI_API_VERSION")
     or st.secrets.get("AZURE_OPENAI_API_VERSION")
 )

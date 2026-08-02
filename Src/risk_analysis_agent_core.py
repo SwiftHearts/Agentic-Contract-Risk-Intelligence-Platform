@@ -40,11 +40,6 @@ SEARCH_KEY = os.getenv("SEARCH_KEY") or st.secrets.get("SEARCH_KEY")
 SEARCH_ENDPOINT = os.getenv("SEARCH_ENDPOINT") or st.secrets.get("SEARCH_ENDPOINT")
 SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME") or st.secrets.get("SEARCH_INDEX_NAME")
 
-# Debug
-st.write("SEARCH_KEY exists:", SEARCH_KEY is not None)
-st.write("SEARCH_ENDPOINT exists:", SEARCH_ENDPOINT is not None)
-st.write("SEARCH_INDEX_NAME exists:", SEARCH_INDEX_NAME is not None)
-
 
 # ------------------------------------------------------------
 # Azure AI Foundry / GPT settings
@@ -94,7 +89,7 @@ search_client = SearchClient(
 # Create an AzureOpenAI client to interact with Azure OpenAI services
 openai_client = AzureOpenAI(
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
-    api_key=AZURE_OPENAI_KEY,
+    api_key=AZURE_OPENAI_API_KEY,
     api_version=AZURE_OPENAI_API_VERSION
 )
 

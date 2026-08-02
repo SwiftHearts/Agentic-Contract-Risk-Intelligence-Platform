@@ -34,4 +34,8 @@ class OrchestratorAgent:
             negotiation_results
         )
 
-        return summary_results
+        return {
+            "risk_results": risk_results,
+            "negotiation_results": negotiation_results,
+            "summary_results": summary_results
+            }

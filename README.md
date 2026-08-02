@@ -1,126 +1,196 @@
-# Contract Risk Intelligence Platform
+# Agentic Contract Intelligence Platform
 
 ## Overview
 
-The Contract Risk Intelligence Platform is an AI-powered legal document analysis solution built on Microsoft Azure. The platform uses Retrieval-Augmented Generation (RAG) to help legal professionals analyze contracts, identify potential risks, and receive grounded responses supported by source citations.
+The Agentic Contract Intelligence Platform is a multi-agent AI solution built on Microsoft Azure that demonstrates how specialized AI agents can collaborate to perform complex contract analysis tasks.
 
-This platform retrieves relevant contract language from Azure AI Search and uses GPT-5-mini to generate responses based on an uploaded contract's content.
+Built on the Retrieval-Augmented Generation (RAG) foundation of the Contract Risk Intelligence Platform, this solution extends traditional AI-assisted contract review by introducing a coordinated workflow of specialized agents that work together to analyze risks, recommend negotiation strategies, and generate executive-ready recommendations.
 
-The project demonstrates two deployment models:
+The platform combines Azure AI Search, Azure OpenAI, GPT-5-mini, Python, and Streamlit to showcase practical enterprise agent orchestration using a real-world legal use case.
 
-- Enterprise law firm implementation using Power Apps and Power Automate
-- Public web application using Streamlit
-
-Both versions share the same Azure-based RAG backend.
+Instead of relying on a single AI response, multiple specialized AI agents collaborate through structured JSON communication, with an orchestrator managing workflow execution and consolidating outputs into a unified recommendation.
 
 ---
 
 ## Live Demo
 
-Try the public version of the application: https://www.swiftheartsai.com/project-showcase
+### Website Showcase
 
-### Public Streamlit Demo
+[View Project Showcase](https://www.swiftheartsai.com/project-showcase)
 
-https://contract-risk-intelligence-platform-a4rlq2uwlfqhaahjj9dpdr.streamlit.app/
+### Interactive Streamlit Application
 
-### Features
-
-- AI-powered contract risk analysis
-- Retrieval-Augmented Generation (RAG)
-- Azure AI Search vector retrieval
-- GPT-5-mini analysis
-- Filename-based source citations
-
-No Microsoft sign-in required.
+*(Update with your Agentic Streamlit URL after deployment.)*
 
 ---
 
 ## Business Problem
 
-Legal teams often spend significant time:
+Contract reviews often require multiple perspectives and layers of analysis.
 
-- Reviewing large collections of contracts
-- Identifying risk exposure
-- Locating specific clauses
-- Comparing terms across agreements
+Legal professionals must:
 
-Manual review can be time-consuming and difficult to scale.
+- Identify legal and compliance risks
+- Evaluate financial and business impacts
+- Recommend negotiation strategies
+- Summarize findings for executives
+- Convert detailed analysis into actionable decisions
+
+Traditional AI applications typically generate a single response, requiring users to manually organize and interpret recommendations.
 
 ---
 
 ## Solution
 
-The Contract Risk Intelligence Platform allows users to ask natural-language questions about contracts and receive AI-generated analysis with supporting citations.
+The Agentic Contract Intelligence Platform introduces a collaborative workflow where specialized AI agents perform distinct responsibilities while sharing context and insights throughout the review process.
 
-### Example Questions
+Each agent contributes unique expertise and passes structured outputs to downstream agents, creating a transparent, explainable, and scalable contract review process.
+
+---
+
+## Agentic Workflow
 
 ```text
-Which contracts contain automatic renewal clauses?
-
-Which agreements allow termination without cause?
-
-Which contracts expose the client to unlimited liability?
-
-What confidentiality obligations survive termination?
+User Question
+      ↓
+Contract Retrieval (Azure AI Search)
+      ↓
+Orchestrator Agent
+      ↓
+Risk Analysis Agent
+      ↓
+Negotiation Agent
+      ↓
+Executive Summary Agent
+      ↓
+Executive Recommendation
 ```
 
 ---
 
+## AI Agents
+
+### Orchestrator Agent
+
+Coordinates the end-to-end workflow and manages communication between specialized agents.
+
+#### Responsibilities
+
+- Receives user requests
+- Initiates agent execution
+- Passes state between agents
+- Aggregates outputs into a unified workflow
+- Produces final recommendations
+
+---
+
+### Risk Analysis Agent
+
+Reviews retrieved contract language and identifies potential concerns.
+
+#### Responsibilities
+
+- Legal risk assessment
+- Compliance review
+- Financial exposure analysis
+- Operational risk identification
+- Structured risk scoring
+
+#### Sample Output
+
+```json
+{
+  "risk_level": "High",
+  "risks": [
+    "Unlimited liability exposure",
+    "Broad indemnification terms"
+  ]
+}
+```
+
+---
+
+### Negotiation Agent
+
+Evaluates identified risks and recommends contract modifications.
+
+#### Responsibilities
+
+- Suggests contract revisions
+- Recommends mitigation strategies
+- Prioritizes negotiation points
+- Improves contractual protections
+
+#### Sample Output
+
+```json
+{
+  "recommendations": [
+    "Add liability cap",
+    "Limit indemnification scope"
+  ]
+}
+```
+
+---
+
+### Executive Summary Agent
+
+Converts technical findings into business-focused recommendations.
+
+#### Responsibilities
+
+- Summarizes key findings
+- Prioritizes actions
+- Generates executive-ready insights
+- Produces final recommendations
+
+#### Sample Output
+
+```text
+Executive Recommendation
+
+• Negotiate a liability limitation clause.
+• Narrow indemnification language.
+• Review automatic renewal provisions.
+• Obtain legal approval before execution.
+```
+
+---
+
+## Key Features
+
+✅ Multi-Agent AI Architecture
+
+✅ Agent Orchestration
+
+✅ Agent-to-Agent JSON Communication
+
+✅ Azure AI Search Retrieval
+
+✅ Retrieval-Augmented Generation (RAG)
+
+✅ GPT-5-mini Analysis
+
+✅ Executive Decision Support
+
+✅ Risk Assessment Automation
+
+✅ Negotiation Recommendations
+
+✅ Streamlit Application
+
+✅ Azure AI Foundry Integration
+
+✅ Enterprise AI Workflow Design
+
+✅ Structured AI Reasoning
+
+✅ Executive Recommendation Generation
+
+---
+
 ## Architecture
-
-### Enterprise Law Firm Deployment
-
-This architecture demonstrates how the solution would typically be implemented within a law firm using Microsoft 365 and the Power Platform.
-
-```text
-Attorney / Legal Team
-          ↓
-Power Apps
-          ↓
-Power Automate
-          ↓
-Azure Function API
-          ↓
-Azure AI Search
-          ↓
-Azure AI Foundry
-          ↓
-GPT-5-mini
-          ↓
-Contract Risk Analysis
-          ↓
-Filename-Based Citations
-          ↓
-Power Apps
-```
-
-### Public Demonstration Deployment
-
-This architecture demonstrates the publicly accessible version used for portfolio demonstrations, recruiter evaluations, and prospective client engagements.
-
-```text
-Website Visitor
-          ↓
-Streamlit App
-          ↓
-Azure Function API
-          ↓
-Azure AI Search
-          ↓
-Azure AI Foundry
-          ↓
-GPT-5-mini
-          ↓
-Contract Risk Analysis
-          ↓
-Filename-Based Citations
-          ↓
-Streamlit App
-```
-
-### Shared RAG Backend
-
-Both deployment models utilize the same Azure AI architecture.
 
 ```text
 Contract PDFs
@@ -134,76 +204,30 @@ Vector Embeddings
       ↓
 Vector Search
       ↓
-Azure Function API
+Azure AI Search Retrieval
       ↓
-Azure AI Foundry
+Orchestrator Agent
       ↓
-GPT-5-mini
+Risk Analysis Agent
       ↓
-Contract Risk Analysis
+Negotiation Agent
       ↓
-Filename-Based Citations
+Executive Summary Agent
+      ↓
+Executive Recommendation
+      ↓
+Streamlit User Interface
 ```
 
 ---
 
-## Solution Screenshots
+## Business Value
 
-### Public Streamlit Demo
-
-Screenshots/01-streamlit-demo.png
-
-The public Streamlit application allows users to perform AI-powered contract risk analysis without requiring Microsoft authentication.
-
----
-
-### Azure AI Model Deployments
-
-Screenshots/02-model-deployments.png
-
-GPT-5-mini and text-embedding-3-small are deployed within Azure AI Foundry to provide contract reasoning and vector embedding generation.
-
----
-
-### Power Automate Integration
-
-Screenshots/03-power-automate-flow.png
-
-Power Automate orchestrates communication between Power Apps and the Azure Function API, enabling secure and scalable contract analysis workflows.
-
----
-
-### Power Apps Contract Risk Analysis
-
-Screenshots/04-power-app-question-analysis.png
-
-Legal professionals can ask natural-language questions and receive AI-generated risk analysis grounded in contract content retrieved through Azure AI Search.
-
----
-
-### Citation Transparency
-
-Screenshots/05-power-app-citations.png
-
-Responses include filename-based citations that improve traceability, transparency, and legal review workflows.
-
-Example citation output:
-
-```text
-Vendor-Agreement-001.pdf
-
-SaaS-Agreement-001.pdf
-
-Employment-Agreement-001.pdf
-```
-
----
-
-### Azure AI Search Vector Index
-
-Screenshots/06-vector-search-fields.png
-
-Contract chunks, metadata, and embeddings are stored in Azure AI Search to support semantic retrieval and Retrieval-Augmented Generation (RAG).
+- Identifies legal, compliance, and business risks across complex contracts
+- Provides AI-generated negotiation recommendations before signing agreements
+- Produces executive-ready summaries for faster decision-making
+- Demonstrates practical enterprise multi-agent AI design patterns
+- Reduces manual review effort through automated risk analysis workflows
 
 ---
 
@@ -214,7 +238,6 @@ Contract chunks, metadata, and embeddings are stored in Azure AI Search to suppo
 - Azure AI Foundry
 - Azure AI Search
 - Azure Blob Storage
-- Azure Functions
 
 ### AI Models
 
@@ -231,113 +254,90 @@ Contract chunks, metadata, and embeddings are stored in Azure AI Search to suppo
 ### Front End
 
 - Streamlit
-- Power Apps
 
-### Workflow Automation
+### AI Architecture
 
-- Power Automate
-
----
-
-## Key Features
-
-✅ Retrieval-Augmented Generation (RAG)
-
-✅ Vector Search
-
-✅ Semantic Search
-
-✅ GPT-Powered Contract Analysis
-
-✅ Filename-Based Citations
-
-✅ Azure Function API
-
-✅ Public Streamlit Demo
-
-✅ Power Apps Enterprise Interface
-
-✅ Azure AI Foundry Integration
-
-✅ Production Azure Deployment
-
-✅ Public Website Demonstration
+- Retrieval-Augmented Generation (RAG)
+- Multi-Agent Systems
+- Agent Orchestration
+- Structured JSON Communication
 
 ---
 
+## Relationship to the Contract Risk Intelligence Platform
 
-### Citation Format
+This project extends the Contract Risk Intelligence Platform by introducing a multi-agent orchestration layer.
 
-```text
-NDA-001.pdf
+Both platforms share:
 
-Vendor-Agreement-001.pdf
+- Azure AI Search
+- Azure OpenAI
+- Vector Search
+- RAG Architecture
+- GPT-5-mini
+- Contract Retrieval Workflows
+- Streamlit Front End
 
-Employment-Agreement-001.pdf
-```
+The Agentic Contract Intelligence Platform adds:
 
-This enhancement allows legal professionals to immediately identify supporting source documents and validate AI-generated responses more efficiently.
+- Agent orchestration
+- Specialized AI agents
+- Structured JSON communication
+- Workflow coordination
+- Executive recommendation generation
 
 ---
 
 ## Repository Structure
 
 ```text
-Contract-Risk-Intelligence-Platform
+Agentic-Contract-Intelligence-Platform
 │
 ├── Docs
-│   └── architecture-notes.md
 │
 ├── Src
-│   └── contract_risk_app.py
+│   ├── agentic_contract_app.py
+│   ├── orchestrator_agent.py
+│   ├── risk_analysis_agent.py
+│   ├── negotiation_agent.py
+│   └── executive_summary_agent.py
 │
 ├── Screenshots
-│   ├── 01-streamlit-demo.png
-│   ├── 02-model-deployments.png
-│   ├── 03-power-automate-flow.png
-│   ├── 04-power-app-question-analysis.png
-│   ├── 05-power-app-citations.png
-│   └── 06-vector-search-fields.png
 │
-├── function_app.py
-├── host.json
 ├── requirements.txt
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
 ## Project Status
 
-### Version 1.0 - Publicly Deployed
+### Version 1.0 - Agentic Workflow Demonstration
 
 ✅ Azure Infrastructure
 
 ✅ Azure AI Search
 
-✅ Contract Indexing
+✅ Contract Retrieval
 
-✅ Python RAG Application
+✅ RAG Implementation
 
-✅ Azure Function API Deployment
+✅ Risk Analysis Agent
 
-✅ Azure AI Foundry Integration
+✅ Negotiation Agent
 
-✅ GPT-5-mini Contract Analysis
+✅ Executive Summary Agent
 
-✅ Source-Cited Responses
+✅ Orchestrator Agent
 
-✅ Power Automate Integration
+✅ Agent-to-Agent JSON Communication
 
-✅ Power Apps Integration
+✅ Streamlit Application
 
-✅ Public Streamlit Deployment
+✅ End-to-End Workflow Testing
 
-✅ Public Website Demonstration
-
-✅ End-to-End Testing
-
-✅ Production Deployment
+✅ Portfolio Deployment
 
 ---
 
@@ -345,24 +345,21 @@ Contract-Risk-Intelligence-Platform
 
 ### Phase 2
 
-- Contract Upload Portal
-- Automated Contract Ingestion
-- Expanded Risk Analysis Framework
-- User Authentication and Roles
-- Additional Contract Templates
+- Dynamic Agent Selection
+- Additional Specialized Agents
+- Contract Comparison Agent
+- Compliance Review Agent
+- Human Approval Workflow
+- Agent Performance Metrics
+- Agent Memory and Context Sharing
 
 ---
 
 ## Final Outcome
 
-Successfully designed, developed, secured, and deployed an end-to-end Azure AI solution for legal contract analysis.
+Successfully designed and developed a multi-agent AI solution demonstrating practical enterprise agent orchestration for legal contract analysis.
 
-The platform combines Azure AI Search, Azure AI Foundry, GPT-5-mini, Azure Functions, Streamlit, Power Apps, and Power Automate to provide grounded contract risk analysis with filename-based citations.
-
-The solution demonstrates two deployment models:
-
-- An enterprise Microsoft 365 implementation using Power Apps and Power Automate for legal professionals.
-- A public Streamlit application for website visitors, recruiters, and prospective clients.
+The platform combines Azure AI Search, Azure AI Foundry, GPT-5-mini, Streamlit, Retrieval-Augmented Generation (RAG), and specialized AI agents to provide contract risk analysis, negotiation recommendations, and executive-ready guidance.
 
 ### Technologies Demonstrated
 
@@ -372,19 +369,21 @@ The solution demonstrates two deployment models:
 - Retrieval-Augmented Generation (RAG)
 - GPT-5-mini
 - text-embedding-3-small
-- Azure Functions
 - Streamlit
-- Power Automate
-- Power Apps
 - Python
 - REST APIs
+- Multi-Agent Systems
+- Agent Orchestration
+- Structured JSON Outputs
+- AI Workflow Automation
+- Enterprise AI Design Patterns
 
-🚀 **Status: Publicly Deployed and Operational**
+🚀 **Status: Portfolio Ready**
 
-✅ Live Demo Available
+✅ Agentic Workflow Operational
 
-✅ No Sign-In Required
+✅ Multi-Agent Architecture Demonstrated
 
-✅ Portfolio Ready
+✅ Recruiter Ready
 
-✅ Website Ready
+✅ Client Demonstration Ready

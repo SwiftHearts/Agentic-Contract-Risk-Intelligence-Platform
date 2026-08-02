@@ -41,6 +41,17 @@ class ExecutiveSummaryAgent:
 
                 Prepare an executive-level briefing suitable for a General Counsel, Legal Director, CEO, or Procurement Executive.
 
+                decision_recommendation must be a list of concise executive action items.
+
+                Example:
+
+                "decision_recommendation": [
+                    "Do not sign the agreement in its current form",
+                    "Require a liability cap",
+                    "Require proof of cyber insurance",
+                    "Escalate unresolved issues to legal counsel"
+]
+
                 Return ONLY valid JSON.
 
                 {
@@ -49,7 +60,7 @@ class ExecutiveSummaryAgent:
                 "top_risks": [],
                 "recommended_actions": [],
                 "business_impact": "",
-                "decision_recommendation": ""
+                "decision_recommendation": []
                 }
                 """
 

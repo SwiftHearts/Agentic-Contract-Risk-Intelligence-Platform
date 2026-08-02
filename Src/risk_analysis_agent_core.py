@@ -34,12 +34,11 @@ load_dotenv()
 
 # Define the Azure AI Search endpoint, key, and index name from environment variables
 
-# Get the Azure AI Search endpoint from the environment variable SEARCH_ENDPOINT
-SEARCH_ENDPOINT = os.getenv("SEARCH_ENDPOINT")
-# Get the Azure AI Search key from the environment variable SEARCH_KEY
-SEARCH_KEY = os.getenv("SEARCH_KEY")
-# Get the Azure AI Search index name from the environment variable SEARCH_INDEX_NAME
-SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME")
+import streamlit as st
+
+SEARCH_KEY = os.getenv("SEARCH_KEY") or st.secrets.get("SEARCH_KEY")
+SEARCH_ENDPOINT = os.getenv("SEARCH_ENDPOINT") or st.secrets.get("SEARCH_ENDPOINT")
+SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME") or st.secrets.get("SEARCH_INDEX_NAME")
 
 
 # ------------------------------------------------------------
@@ -47,14 +46,30 @@ SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME")
 # ------------------------------------------------------------
 
 # Define Azure OpenAI settings from environment variables
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION")
+AZURE_OPENAI_ENDPOINT = (
+    os.getenv("AZURE_OPENAI_ENDPOINT")
+    or st.secrets.get("AZURE_OPENAI_ENDPOINT")
+)
 
-# Define the deployment names for GPT and embeddings from environment variables
-GPT_DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-EMBEDDING_DEPLOYMENT_NAME = os.getenv(
-    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME"
+AZURE_OPENAI_API_KEY = (
+    os.getenv("AZURE_OPENAI_API_KEY")
+    or st.secrets.get("AZURE_OPENAI_API_KEY")
+)
+
+AZURE_OPENAI_VERSION = (
+    os.getenv("AZURE_OPENAI_API_VERSION")
+    or st.secrets.get("AZURE_OPENAI_API_VERSION")
+)
+
+# Define the deployment names for GPT and embeddings
+GPT_DEPLOYMENT_NAME = (
+    os.getenv("AZURE_OPENAI_DEPLOYMENT")
+    or st.secrets.get("AZURE_OPENAI_DEPLOYMENT")
+)
+
+EMBEDDING_DEPLOYMENT_NAME = (
+    os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME")
+    or st.secrets.get("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME")
 )
 
 

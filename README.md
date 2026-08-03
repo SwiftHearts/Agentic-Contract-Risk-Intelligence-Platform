@@ -8,7 +8,7 @@ Built on the Retrieval-Augmented Generation (RAG) foundation of the Contract Ris
 
 The platform combines Azure AI Search, Azure OpenAI, GPT-5-mini, Python, and Streamlit to showcase practical enterprise agent orchestration using a real-world legal use case.
 
-Instead of relying on a single AI response, multiple specialized AI agents collaborate through structured JSON communication, with an orchestrator managing workflow execution and consolidating outputs into a unified recommendation.
+Rather than relying on a single AI response, multiple specialized AI agents collaborate through structured JSON communication, with an orchestrator managing workflow execution and consolidating outputs into a unified recommendation.
 
 ---
 
@@ -20,7 +20,7 @@ Instead of relying on a single AI response, multiple specialized AI agents colla
 
 ### Interactive Streamlit Application
 
-*(Update with your Agentic Streamlit URL after deployment.)*
+(https://agentic-contract-risk-intelligence-platform.streamlit.app/)
 
 ---
 
@@ -293,21 +293,39 @@ The Agentic Contract Intelligence Platform adds:
 ```text
 Agentic-Contract-Intelligence-Platform
 │
-├── Docs
+├── Contracts                        Sample contract PDFs and source DOCX files
 │
-├── Src
-│   ├── agentic_contract_app.py
-│   ├── orchestrator_agent.py
-│   ├── risk_analysis_agent.py
-│   ├── negotiation_agent.py
-│   └── executive_summary_agent.py
+├── Docs
+│   ├── architecture-notes.md
+│   └── risk-framework.md
 │
 ├── Screenshots
 │
+├── Src
+│   ├── agentic_contract_app.py      Streamlit UI for the multi-agent workflow
+│   ├── contract_risk_app.py         RAG core used by the Azure Function (plain-text answers)
+│   ├── risk_analysis_agent_core.py  RAG core used by the agent pipeline (structured JSON)
+│   └── agents
+│       ├── orchestrator_agent.py
+│       ├── risk_analysis_agent.py
+│       ├── negotiation_agent.py
+│       └── executive_summary_agent.py
+│
+├── app.py                           Streamlit UI for the single-agent RAG workflow
+├── function_app.py                  Azure Function entry point (ContractRiskAnalysis)
+├── contract_risk_framework.json
+├── host.json
+├── local.settings.json
 ├── requirements.txt
+├── run.sh
 ├── README.md
 └── .gitignore
 ```
+
+This repository contains two related apps that share the same Azure AI Search / Azure OpenAI backend:
+
+- **Single-agent RAG app** (`app.py` → `function_app.py` → `Src/contract_risk_app.py`): one retrieval step, one GPT call, one plain-text answer. Deployed as an Azure Function behind a Streamlit front end.
+- **Multi-agent app** (`Src/agentic_contract_app.py` → `Src/agents/`): the Risk Analysis, Negotiation, and Executive Summary agents described below, called directly from Streamlit without going through the Azure Function. The Risk Analysis Agent reuses the retrieval logic from `Src/risk_analysis_agent_core.py`, which returns structured JSON instead of plain text so it can be passed between agents.
 
 ---
 

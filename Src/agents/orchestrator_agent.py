@@ -21,18 +21,27 @@ class OrchestratorAgent:
         """
 
         print("Starting Risk Analysis Agent...")
-        risk_results = self.risk_agent.run(question)
+        try:
+            risk_results = self.risk_agent.run(question)
+        except Exception as e:
+            raise RuntimeError(f"Risk Analysis Agent failed: {e}") from e
 
         print("Starting Negotiation Agent...")
-        negotiation_results = self.negotiation_agent.run(
-            risk_results
-        )
+        try:
+            negotiation_results = self.negotiation_agent.run(
+                risk_results
+            )
+        except Exception as e:
+            raise RuntimeError(f"Negotiation Agent failed: {e}") from e
 
         print("Starting Executive Summary Agent...")
-        summary_results = self.summary_agent.run(
-            risk_results,
-            negotiation_results
-        )
+        try:
+            summary_results = self.summary_agent.run(
+                risk_results,
+                negotiation_results
+            )
+        except Exception as e:
+            raise RuntimeError(f"Executive Summary Agent failed: {e}") from e
 
         return {
             "risk_results": risk_results,

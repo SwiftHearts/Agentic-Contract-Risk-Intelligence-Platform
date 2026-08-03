@@ -36,38 +36,44 @@ question = st.text_area(
 if st.button("Analyze Contract"):
 
     # Check if the user has entered a question
-    if question:
+    if not question:
+        st.warning("Please enter a question before analyzing.")
+    else:
 
         # Display a spinner to indicate that the analysis is in progress while the request is being processed
         with st.spinner("Analyzing contract..."):
 
-            # Make a POST request to the Azure Function with the user's question as JSON data
-            response = requests.post(
-                FUNCTION_URL,
-                json={
-                    "question": question
-                }
-            )
+            try:
+                # Make a POST request to the Azure Function with the user's question as JSON data
+                response = requests.post(
+                    FUNCTION_URL,
+                    json={
+                        "question": question
+                    },
+                    timeout=60
+                )
+                response.raise_for_status()
+                result = response.json()
+            except requests.exceptions.RequestException as e:
+                st.error(f"Could not reach the contract analysis service: {e}")
+                st.stop()
 
-            result = response.json()
+        # Check if the analysis was successful; if so, display the answer and sources in the Streamlit app
+        if result.get("status") == "success":
 
-            
-    # Check if the analysis was successful; if so, display the answer and sources in the Streamlit app        
-    if result.get("status") == "success":
+            # Display the analysis results in the Streamlit app, including the answer and sources used for the analysis
+            st.subheader("Analysis")
+            st.markdown(result.get("answer", ""))
 
-        # Display the analysis results in the Streamlit app, including the answer and sources used for the analysis
-        st.subheader("Analysis")
-        st.markdown(result.get("answer", ""))
+            # Display the sources used for the analysis in a subheader section, listing each source as a markdown bullet point
+            st.subheader("Sources Used")
 
-        # Display the sources used for the analysis in a subheader section, listing each source as a markdown bullet point
-        st.subheader("Sources Used")
+            # Loop through the sources provided in the result and display each source as a markdown bullet point in the Streamlit app
+            for source in result.get("sources", []):
+                st.markdown(f"- {source}")
 
-        # Loop through the sources provided in the result and display each source as a markdown bullet point in the Streamlit app
-        for source in result.get("sources", []):
-            st.markdown(f"- {source}")
-
-    else:
-        st.error(result.get("message", "An unknown error occurred."))
+        else:
+            st.error(result.get("message", "An unknown error occurred."))
 
 # Add a divider and a caption to provide additional context about the app's development and the technologies used
 st.divider()

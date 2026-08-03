@@ -16,9 +16,6 @@ from azure.search.documents.models import VectorizedQuery
 # Import AzureOpenAI to interact with Azure OpenAI services
 from openai import AzureOpenAI
 
-# Import json to handle JSON data
-import json
-
 
 # ------------------------------------------------------------
 # Load environment variables from .env
@@ -35,13 +32,12 @@ load_dotenv()
 
 # Define the Azure AI Search endpoint, key, and index name from environment variables
 
-# Import streamlit to access secrets stored in Streamlit's secure storage
-import streamlit as st
-
-# Define the Azure AI Search key, endpoint, and index name from environment variables or Streamlit secrets
-SEARCH_KEY = os.getenv("SEARCH_KEY") or st.secrets.get("SEARCH_KEY")
-SEARCH_ENDPOINT = os.getenv("SEARCH_ENDPOINT") or st.secrets.get("SEARCH_ENDPOINT")
-SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME") or st.secrets.get("SEARCH_INDEX_NAME")
+# Get the Azure AI Search endpoint from the environment variable SEARCH_ENDPOINT
+SEARCH_ENDPOINT = os.getenv("SEARCH_ENDPOINT")
+# Get the Azure AI Search key from the environment variable SEARCH_KEY
+SEARCH_KEY = os.getenv("SEARCH_KEY")
+# Get the Azure AI Search index name from the environment variable SEARCH_INDEX_NAME
+SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME")
 
 
 # ------------------------------------------------------------
@@ -49,30 +45,14 @@ SEARCH_INDEX_NAME = os.getenv("SEARCH_INDEX_NAME") or st.secrets.get("SEARCH_IND
 # ------------------------------------------------------------
 
 # Define Azure OpenAI settings from environment variables
-AZURE_OPENAI_ENDPOINT = (
-    os.getenv("AZURE_OPENAI_ENDPOINT")
-    or st.secrets.get("AZURE_OPENAI_ENDPOINT")
-)
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION")
 
-AZURE_OPENAI_API_KEY = (
-    os.getenv("AZURE_OPENAI_API_KEY")
-    or st.secrets.get("AZURE_OPENAI_API_KEY")
-)
-
-AZURE_OPENAI_API_VERSION = (
-    os.getenv("AZURE_OPENAI_API_VERSION")
-    or st.secrets.get("AZURE_OPENAI_API_VERSION")
-)
-
-# Define the deployment names for GPT and embeddings
-GPT_DEPLOYMENT_NAME = (
-    os.getenv("AZURE_OPENAI_DEPLOYMENT")
-    or st.secrets.get("AZURE_OPENAI_DEPLOYMENT")
-)
-
-EMBEDDING_DEPLOYMENT_NAME = (
-    os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME")
-    or st.secrets.get("AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME")
+# Define the deployment names for GPT and embeddings from environment variables
+GPT_DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+EMBEDDING_DEPLOYMENT_NAME = os.getenv(
+    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME"
 )
 
 
@@ -92,7 +72,7 @@ search_client = SearchClient(
 # Create an AzureOpenAI client to interact with Azure OpenAI services
 openai_client = AzureOpenAI(
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
-    api_key=AZURE_OPENAI_API_KEY,
+    api_key=AZURE_OPENAI_KEY,
     api_version=AZURE_OPENAI_API_VERSION
 )
 
@@ -118,7 +98,6 @@ def create_question_embedding(question):
 # ------------------------------------------------------------
 
 # Retrieve relevant contract chunks from Azure AI Search based on the user's question
-# This hybrid search approach combines keyword search and vector search to find the most relevant contract chunks
 def retrieve_contract_chunks(question, top_k=5):
     question_embedding = create_question_embedding(question)
 
@@ -232,21 +211,12 @@ Sources Used:
 - Employment-Agreement-001.pdf
 - Vendor-Agreement-001.pdf
 
-Return ONLY valid JSON.
-
-{
-  "overall_risk": "Low | Medium | High | Critical",
-  "risks": [
-    {
-      "title": "",
-      "severity": "",
-      "category": "",
-      "reasoning": "",
-      "citation": ""
-    }
-  ],
-  "recommended_actions": []
-}
+Structure your answer with:
+1. Short Answer
+2. Key Contract Evidence
+3. Risk Analysis
+4. Recommended Next Steps
+5. Sources Used
 """
 
     # Define the user message to provide GPT-5-mini with the user's question and the retrieved contract excerpts
@@ -268,18 +238,8 @@ Retrieved contract excerpts:
         ],
     )
 
-    raw_response = response.choices[0].message.content
-
-    try:
-        result = json.loads(raw_response)
-    except json.JSONDecodeError as e:
-        print("Raw model response was not valid JSON:")
-        print(raw_response)
-        raise e
-
-    print(result)
-
-    return result
+    # Return the content of the first message in the response, which contains GPT-5-mini's analysis of the contract risk
+    return response.choices[0].message.content
 
 
 # -----------------------------------------------------------

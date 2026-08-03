@@ -9,8 +9,6 @@ st.set_page_config(
 
 st.title("Agentic Contract Intelligence Platform")
 
-col1, col2 = st.columns([2, 1])
-
 
 st.markdown("""
     ### Business Value
@@ -59,10 +57,18 @@ show_json = st.checkbox("Show Agent-to-Agent Communication in JSON")
 
 if st.button("Run Agent Workflow"):
 
+    if not question:
+        st.warning("Please enter a contract question before running the workflow.")
+        st.stop()
+
     orchestrator = OrchestratorAgent()
 
-    with st.spinner("Running multi-agent workflow..."):
-        result = orchestrator.run(question)
+    try:
+        with st.spinner("Running multi-agent workflow..."):
+            result = orchestrator.run(question)
+    except Exception as e:
+        st.error(f"The agent workflow failed: {e}")
+        st.stop()
 
     st.success("✅ Workflow Complete")
 
@@ -76,7 +82,7 @@ if st.button("Run Agent Workflow"):
     # Executive Summary (Visible to Everyone)
     # ---------------------------------------------------
 
-    st.subheader("📋 Executive Summary Agent")
+    st.subheader("Executive Summary Agent")
 
     st.markdown("### Executive Recommendation")
 

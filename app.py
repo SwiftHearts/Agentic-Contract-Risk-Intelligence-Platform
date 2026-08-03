@@ -4,6 +4,9 @@ import streamlit as st
 # Import the requests library for making HTTP requests to the Azure Function
 import requests
 
+# Import os to read the function key from the environment
+import os
+
 # Define the URL of the Azure Function that handles contract risk analysis requests
 FUNCTION_URL = "https://sterling-contract-risk-api-dve9a8gcbzbwczgt.eastus2-01.azurewebsites.net/api/ContractRiskAnalysis"
 
@@ -47,11 +50,12 @@ if st.button("Analyze Contract"):
                 # Make a POST request to the Azure Function with the user's question as JSON data
                 response = requests.post(
                     FUNCTION_URL,
-                    json={
-                        "question": question
-                    },
+                    json={"question": question},
+                    headers={"x-functions-key": 
+                os.getenv("FUNCTION_KEY") or     
+                st.secrets["FUNCTION_KEY"]},
                     timeout=60
-                )
+             )
                 response.raise_for_status()
                 result = response.json()
             except requests.exceptions.RequestException as e:

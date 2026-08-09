@@ -17,8 +17,8 @@ app = func.FunctionApp()
 @app.route(
     # Define the route for the Azure Function that handles contract risk analysis requests
     route="ContractRiskAnalysis",
-    # Anyone can access this function without authentication, as specified by the auth_level parameter
-    auth_level=func.AuthLevel.ANONYMOUS
+    # Requires a function key (x-functions-key header or ?code= query param) to call this endpoint
+    auth_level=func.AuthLevel.FUNCTION
 )
 # Define the ContractRiskAnalysis function that processes incoming HTTP requests for contract risk analysis
 # Req contains the HTTP request data, and -> func.HttpResponse indicates that the function will return an HTTP response

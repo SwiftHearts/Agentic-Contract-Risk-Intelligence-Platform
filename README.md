@@ -405,3 +405,6 @@ The platform combines Azure AI Search, Azure AI Foundry, GPT-5-mini, Streamlit, 
 ✅ Recruiter Ready
 
 ✅ Client Demonstration Ready
+
+
+* This project was initially scaffolded with AI assistance, with each component subsequently reviwed in depth to build genuine mastery.*
